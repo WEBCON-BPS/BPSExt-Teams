@@ -1,0 +1,26 @@
+[
+  {
+    "Guid": "a9ae7936-3589-43cf-ae2d-26f7dde9017b",
+    "Name": "CreateTeamsChannel",
+    "Description": "Action creates a team with one channel and adds to it all users who have access to the current workflow instance.",
+    "Assembly": "BPSExt.Teams",
+    "Class": "BPSExt.Teams.CustomActions.CreateTeamsChannel.CreateTeamsChannel",
+    "Type": "CustomAction"
+  },
+  {
+    "Guid": "1f65b82c-ae97-445c-ba40-dd149014a8c7",
+    "Name": "AddAttachmentToPrivateChannel",
+    "Description": "Action adds attachments to private Teams channel",
+    "Assembly": "BPSExt.Teams",
+    "Class": "BPSExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel.AddAttachmentsToPrivateChannel",
+    "Type": "CustomAction"
+  },
+  {
+    "Guid": "efe97a34-121a-4015-9091-df9bef150f07",
+    "Name": "AddAttachmentToPublicChannel",
+    "Description": "Action adds attachments to public Teams channel",
+    "Assembly": "BPSExt.Teams",
+    "Class": "BPSExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPublicChannel.AddAttachmentsToPublicChannel",
+    "Type": "CustomAction"
+  }
+]
