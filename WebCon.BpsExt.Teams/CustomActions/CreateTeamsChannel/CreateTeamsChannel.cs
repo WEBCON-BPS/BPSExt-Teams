@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BPSExt.Teams.CustomActions.Models;
+using WebCon.BpsExt.Teams.CustomActions.Models;
 using WebCon.WorkFlow.SDK.ActionPlugins;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 
-namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
+namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 {
     public class CreateTeamsChannel : CustomAction<CreateTeamsChannelConfig>
     {

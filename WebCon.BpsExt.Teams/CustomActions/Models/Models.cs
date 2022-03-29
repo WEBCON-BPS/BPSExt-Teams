@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace BPSExt.Teams.CustomActions.Models
+namespace WebCon.BpsExt.Teams.CustomActions.Models
 {
     public class token
     {

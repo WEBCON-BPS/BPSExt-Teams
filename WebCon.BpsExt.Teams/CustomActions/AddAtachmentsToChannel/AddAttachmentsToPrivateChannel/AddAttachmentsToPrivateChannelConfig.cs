@@ -1,8 +1,8 @@
-﻿using BPSExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
+﻿using WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
 using WebCon.WorkFlow.SDK.Common;
 using WebCon.WorkFlow.SDK.ConfigAttributes;
 
-namespace BPSExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel
+namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel
 {
     public class AddAttachmentsToPrivateChannelConfig : AddAttachmentsToChannelBaseConfig
     {

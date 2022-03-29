@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup Label="MainConfig">
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{76bc52b1-a2a4-4e42-aecd-ba07d0f81f53}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebCon.BpsExt.Teams</RootNamespace>
+    <AssemblyName>WebCon.BpsExt.Teams</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>temporary_key.snk</AssemblyOriginatorKeyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPrivateChannel\AddAttachmentsToPrivateChannel.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPrivateChannel\AddAttachmentsToPrivateChannelConfig.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPublicChannel\AddAttachmentToPublicChannel.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AttachmentsHelper.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\Configuration\AddAttachmentsToChannelBaseConfig.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\GraphApiAttachmentsHelper.cs" />
+    <Compile Include="CustomActions\CreateTeamsChannel\BpsApiHelper.cs" />
+    <Compile Include="CustomActions\CreateTeamsChannel\CreateTeamsChannel.cs" />
+    <Compile Include="CustomActions\CreateTeamsChannel\CreateTeamsChannelConfig.cs" />
+    <Compile Include="CustomActions\CreateTeamsChannel\DataToSave.cs" />
+    <Compile Include="CustomActions\CreateTeamsChannel\GraphApiTeamHelper.cs" />
+    <Compile Include="CustomActions\GraphApi\AuthenticationProvider.cs" />
+    <Compile Include="CustomActions\GraphApi\GraphApiProvider.cs" />
+    <Compile Include="CustomActions\Models\Models.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WebCon.BpsExt.Teams.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="temporary_key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Graph" Version="4.18.0" />
+    <PackageReference Include="Microsoft.Graph.Core" Version="2.0.7" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.41.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="WEBCON.BPS.2022.SDK.Libraries" Version="22.1.1.30" />
+  </ItemGroup>
+</Project>

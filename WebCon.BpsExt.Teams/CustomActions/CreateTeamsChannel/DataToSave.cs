@@ -1,4 +1,4 @@
-﻿namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
+﻿namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 {
     public class DataToSave
     {

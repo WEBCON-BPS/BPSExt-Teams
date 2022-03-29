@@ -1,7 +1,7 @@
 ﻿using WebCon.WorkFlow.SDK.Common;
 using WebCon.WorkFlow.SDK.ConfigAttributes;
 
-namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
+namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 {
     public class CreateTeamsChannelConfig : PluginConfiguration
     {

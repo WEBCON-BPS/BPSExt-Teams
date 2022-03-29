@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using BPSExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
+using WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Documents.Model.Attachments;
 
-namespace BPSExt.Teams.CustomActions.AddAtachmentsToChannel
+namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel
 {
     public class AttachmentsHelper
     {

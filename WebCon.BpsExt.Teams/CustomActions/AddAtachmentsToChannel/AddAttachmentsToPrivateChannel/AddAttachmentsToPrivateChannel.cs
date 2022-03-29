@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using BPSExt.Teams.CustomActions.GraphApi;
+using WebCon.BpsExt.Teams.CustomActions.GraphApi;
 using WebCon.WorkFlow.SDK.ActionPlugins;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Documents.Model.Attachments;
 
-namespace BPSExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel
+namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel
 {
     public class AddAttachmentsToPrivateChannel : CustomAction<AddAttachmentsToPrivateChannelConfig>
     {

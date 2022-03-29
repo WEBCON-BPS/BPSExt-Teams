@@ -1,7 +1,7 @@
 ﻿using WebCon.WorkFlow.SDK.Common;
 using WebCon.WorkFlow.SDK.ConfigAttributes;
 
-namespace BPSExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration
+namespace WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration
 {
     public class AddAttachmentsToChannelBaseConfig : PluginConfiguration
     {
