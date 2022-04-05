@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using BPSExt.Teams.CustomActions.GraphApi;
-using BPSExt.Teams.CustomActions.Models;
+using WebCon.BpsExt.Teams.CustomActions.GraphApi;
+using WebCon.BpsExt.Teams.CustomActions.Models;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 
-namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
+namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 {
     public class GraphApiTeamHelper : GraphApiProvider
     {
@@ -46,9 +46,10 @@ namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
         private List<string> GetMembers(GraphServiceClient graphClient, List<ElementPrivileges> users)
         {
             var members = new List<string>();
+            var userDataProvider = new WebCon.WorkFlow.SDK.Tools.Users.UserDataProvider(base._context);
             foreach (var user in users)
             {
-                var userInfo = WebCon.WorkFlow.SDK.Tools.Users.UserDataProvider.Validate(WebCon.WorkFlow.SDK.Tools.Users.Model.SearchParameters.FromContent(user.User.BpsId));
+                var userInfo = userDataProvider.Validate(WebCon.WorkFlow.SDK.Tools.Users.Model.SearchParameters.FromContent(user.User.BpsId));
                 if (userInfo != null)
                     if (userInfo.AccountType == WebCon.WorkFlow.SDK.Common.Model.BpsAccountType.User)
                         members.Add(GetAsUser(graphClient, user.User.BpsId));

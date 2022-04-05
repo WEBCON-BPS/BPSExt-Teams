@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using BPSExt.Teams.CustomActions.Models;
+using WebCon.BpsExt.Teams.CustomActions.Models;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Tools.Data.Model;
 
-namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
+namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 {
     class BpsApiHelper
     {
@@ -49,7 +49,7 @@ namespace BPSExt.Teams.CustomActions.CreateTeamsChannel
 
         public PrivilegesList GetElementPrivileges(int dbId, int elementId)
         {
-            var connection = WebCon.WorkFlow.SDK.Tools.Data.ConnectionsHelper.GetConnectionToWebService(new GetByConnectionParams(_config.ApiConfig.BpsApiConnectionId, _context));
+            var connection = WebCon.WorkFlow.SDK.Tools.Data.ConnectionsHelper.GetConnectionToWebService(new WorkFlow.SDK.Tools.Data.Model.GetByConnectionParams(_config.ApiConfig.BpsApiConnectionId, _context));
             var bearer = GetToken(connection);
             using (HttpClient client = new HttpClient())
             {

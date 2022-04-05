@@ -3,7 +3,7 @@ using Microsoft.Identity.Client;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BPSExt.Teams.CustomActions.GraphApi
+namespace WebCon.BpsExt.Teams.CustomActions.GraphApi
 {
     public class AuthenticationProvider : IAuthenticationProvider
     {

@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BPSExt.Teams")]
+[assembly: AssemblyTitle("WebCon.BpsExt.Teams")]
 [assembly: AssemblyDescription("WEBCON BPS Extensions")]
-[assembly: AssemblyProduct("BPSExt.Teams")]
+[assembly: AssemblyProduct("WebCon.BpsExt.Teams")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9231f780-99c2-45de-9253-425b1e141845")]
+[assembly: Guid("76bc52b1-a2a4-4e42-aecd-ba07d0f81f53")]
 
 // Version information for an assembly consists of the following four values:
 //

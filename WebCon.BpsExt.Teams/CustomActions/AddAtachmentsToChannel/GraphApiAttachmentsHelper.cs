@@ -6,13 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BPSExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel;
-using BPSExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
-using BPSExt.Teams.CustomActions.GraphApi;
+using WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToPrivateChannel;
+using WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
+using WebCon.BpsExt.Teams.CustomActions.GraphApi;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Documents.Model.Attachments;
 
-namespace BPSExt.Teams.CustomActions.AddAtachmentsToChannel
+namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel
 {
     public class GraphApiAttachmentsHelper : GraphApiProvider
     {
