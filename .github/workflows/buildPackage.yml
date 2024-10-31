@@ -1,0 +1,39 @@
+name: Build .NET
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x       
+    - name: Restore dependencies
+      run: dotnet restore WebCon.BpsExt.Teams.sln
+    - name: Build
+      run: dotnet build WebCon.BpsExt.Teams.sln  --no-restore --configuration Release 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: WebCon.BpsExt.Teams
+        path: |
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/WebCon.BpsExt.Teams.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/WebCon.BpsExt.Teams.json
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Graph.Core.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Graph.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Identity.Client.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Abstractions.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Core.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Authentication.Azure.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Http.HttpClientLibrary.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Json.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Text.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Form.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Multipart.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Identity.dll Std.UriTemplate.dll
+          

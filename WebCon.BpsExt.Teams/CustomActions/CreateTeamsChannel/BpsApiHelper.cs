@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using WebCon.BpsExt.Teams.CustomActions.Models;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
+using WebCon.WorkFlow.SDK.Tools.Data;
 using WebCon.WorkFlow.SDK.Tools.Data.Model;
 
 namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
@@ -14,54 +17,76 @@ namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
     {
         private CreateTeamsChannelConfig _config;
         private ActionContextInfo _context;
+        private StringBuilder _logger;
 
-        public BpsApiHelper(CreateTeamsChannelConfig config, ActionContextInfo context)
+        public BpsApiHelper(CreateTeamsChannelConfig config, ActionContextInfo context, StringBuilder logger)
         {
             _config = config;
             _context = context;
+            _logger = logger;
         }
 
-        public List<ElementPrivileges> GetWorkflofInstancePrivileges(int documentId)
+        public async Task<List<ElementPrivileges>> GetWorkflofInstancePrivilegesAsync(int documentId)
         {
-            var elementPrivilages = GetElementPrivileges(1, documentId).Privileges;
-            return GetDistincted(elementPrivilages);
+            var elementPrivilages = await GetElementPrivilegesAsync(_context.CurrentDbId, documentId);
+            return GetDistincted(elementPrivilages.Privileges);
         }
 
-        private token GetToken(WebServiceConnection connection)
+        private async Task<string> GetAccessTokenAsync(WebServiceConnection connection)
         {       
-            LoginModel loginModel = new LoginModel();
-            loginModel.clientId = connection.ClientID;
-            loginModel.clientSecret = connection.ClientSecret;
-
-            string json = JsonConvert.SerializeObject(loginModel);
-
             using (HttpClient client = new HttpClient())
             {
-                var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
-                var result = client.PostAsync($"{connection.Url}/api/login", content).Result.Content.ReadAsStringAsync();
+                var request = CreateAuthtRequest(connection);
+                var response = await client.SendAsync(request);
 
-                string TokenString = result.Result;
-                token token = new token();
-                token = JsonConvert.DeserializeObject<token>(TokenString);
-                return token;
+                if (response.IsSuccessStatusCode)
+                    return await GetAccessTokenFromResponse(response);
+
+                _logger.AppendLine($"An error occurred while downloading the access token. StatusCode: {response.StatusCode} Message: {await response.Content.ReadAsStringAsync()}");
+                throw new Exception("An error occurred while downloading the access token. For more information check action logs");         
             }
         }
 
-        public PrivilegesList GetElementPrivileges(int dbId, int elementId)
+        private async Task<string> GetAccessTokenFromResponse(HttpResponseMessage response)
         {
-            var connection = WebCon.WorkFlow.SDK.Tools.Data.ConnectionsHelper.GetConnectionToWebService(new WorkFlow.SDK.Tools.Data.Model.GetByConnectionParams(_config.ApiConfig.BpsApiConnectionId, _context));
-            var bearer = GetToken(connection);
-            using (HttpClient client = new HttpClient())
+            string result = await response.Content.ReadAsStringAsync();
+            var authResponse = JsonConvert.DeserializeObject<AuthResponse>(result);
+            return authResponse.AccessToken;
+        }
+
+        private HttpRequestMessage CreateAuthtRequest(WebServiceConnection connection)
+        {
+            var dict = new Dictionary<string, string>()
             {
-                client.DefaultRequestHeaders.Authorization =
-                  new AuthenticationHeaderValue("Bearer", bearer.Token);
+                {"grant_type", "client_credentials"},
+                {"client_id", connection.ClientID},
+                {"client_secret", connection.ClientSecret}
+            };
+            return new HttpRequestMessage(HttpMethod.Post, $"{connection.Url}/api/oauth2/token") { Content = new FormUrlEncodedContent(dict) };
+        }
 
-                var response = client.GetAsync($"{connection.Url}/api/data/v3.0/db/{dbId}/elements/{elementId}/admin/privileges").Result.Content.ReadAsStringAsync();
-                var elementPrivilegesString = response.Result;
+        public async Task<PrivilegesList> GetElementPrivilegesAsync(int dbId, int elementId)
+        {
+            var connection = new ConnectionsHelper(_context).GetConnectionToWebService(new GetByConnectionParams(_config.ApiConfig.BpsApiConnectionId));
+            var bearer = await GetAccessTokenAsync(connection);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+                var response = await client.GetAsync($"{connection.Url}/api/data/v5.0/db/{dbId}/elements/{elementId}/admin/privileges");
 
-                var elementPrivilages = JsonConvert.DeserializeObject<PrivilegesList>(elementPrivilegesString);
-                return elementPrivilages;
+                if(response.IsSuccessStatusCode)
+                    return await GetPrivilegesListAsync(response);
+
+                _logger.AppendLine($"An error occurred while downloading privilages. StatusCode: {response.StatusCode} Message: {await response.Content.ReadAsStringAsync()}");
+                throw new Exception($"An error occurred while downloading privilages for element {elementId}. For more information check action logs");
             }
+        }
+
+        private async Task<PrivilegesList> GetPrivilegesListAsync(HttpResponseMessage response)
+        {
+            var elementPrivilegesString = await response.Content.ReadAsStringAsync();
+            var elementPrivilages = JsonConvert.DeserializeObject<PrivilegesList>(elementPrivilegesString);
+            return elementPrivilages;
         }
 
         private List<ElementPrivileges> GetDistincted(List<ElementPrivileges> elemPrivilegesList)

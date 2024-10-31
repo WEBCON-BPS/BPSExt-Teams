@@ -3,15 +3,10 @@ using System.Collections.Generic;
 
 namespace WebCon.BpsExt.Teams.CustomActions.Models
 {
-    public class token
+    public class AuthResponse
     {
-        public string Token { get; set; }
-    }
-
-    public class LoginModel
-    {
-        public string clientId { get; set; }
-        public string clientSecret { get; set; }
+        [JsonProperty("access_token")]
+        public string AccessToken { get; set; }
     }
 
     public class PrivilegesList

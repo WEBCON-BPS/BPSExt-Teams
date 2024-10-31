@@ -49,7 +49,6 @@
     <Compile Include="CustomActions\CreateTeamsChannel\CreateTeamsChannelConfig.cs" />
     <Compile Include="CustomActions\CreateTeamsChannel\DataToSave.cs" />
     <Compile Include="CustomActions\CreateTeamsChannel\GraphApiTeamHelper.cs" />
-    <Compile Include="CustomActions\GraphApi\AuthenticationProvider.cs" />
     <Compile Include="CustomActions\GraphApi\GraphApiProvider.cs" />
     <Compile Include="CustomActions\Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,12 +60,16 @@
     <None Include="temporary_key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graph" Version="4.18.0" />
-    <PackageReference Include="Microsoft.Graph.Core" Version="2.0.7" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.41.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <Folder Include="Publish\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.12.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Graph" Version="5.58.0" />
+    <PackageReference Include="Microsoft.Graph.Core" Version="3.1.22" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.65.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="WEBCON.BPS.2022.SDK.Libraries" Version="22.1.1.30" />
+    <PackageReference Include="WEBCON.BPS.2024.SDK.Libraries" Version="24.1.1.25" />
   </ItemGroup>
 </Project>

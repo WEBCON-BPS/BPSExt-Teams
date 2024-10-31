@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -23,75 +24,68 @@ namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel
 
         }
 
-        internal List<Exception> AddAttachmentsToPublicChannel(List<AttachmentData> attachments, AddAttachmentsToChannelBaseConfig config)
+        internal async Task<List<Exception>> AddAttachmentsToPublicChannelAsync(List<AttachmentData> attachments, AddAttachmentsToChannelBaseConfig config)
         {
             var graphClient = CreateGraphClient();
-            var driveId = GetDriveIdFromPublicChannel(config, graphClient);
-            return AddAttachmentsToChannel(driveId, config, attachments, graphClient).Result.ToList();
+            var driveId = await GetDriveIdFromPublicChannelAsync(config, graphClient);
+            return (await AddAttachmentsToChannelAsync(driveId, config, attachments, graphClient)).ToList();
         }
 
-        internal List<Exception> AddAttachmentsToPrivateChannel(List<AttachmentData> attachments, AddAttachmentsToPrivateChannelConfig config)
+        internal async Task<List<Exception>> AddAttachmentsToPrivateChannelAsync(List<AttachmentData> attachments, AddAttachmentsToPrivateChannelConfig config)
         {
             var graphClient = CreateGraphClient();
-            var driveId = GetDriveIdFromPrivateChannel(config, graphClient);
-            return AddAttachmentsToChannel(driveId, config, attachments, graphClient).Result.ToList();
+            var driveId = await GetDriveIdFromPrivateChannelAsync(config, graphClient);
+            return (await AddAttachmentsToChannelAsync(driveId, config, attachments, graphClient)).ToList();
         }
 
-        private async Task<BlockingCollection<Exception>> AddAttachmentsToChannel(string driveId, AddAttachmentsToChannelBaseConfig config, List<AttachmentData> attachments, GraphServiceClient graphClient)
+        private async Task<BlockingCollection<Exception>> AddAttachmentsToChannelAsync(string driveId, AddAttachmentsToChannelBaseConfig config, List<AttachmentData> attachments, GraphServiceClient graphClient)
         {
-            var itemId = GetItemId(config, graphClient, driveId);
+            var itemId = await GetItemIdAsync(config, graphClient, driveId);
+            _logger.AppendLine($"Uploading attachments. DriveId: {driveId}, ItemId: {itemId}");
             await Task.WhenAll(attachments.Select(att => UploadAsync(driveId, itemId, graphClient, att)));
             return uploadExceptions;
         }
 
         private async Task UploadAsync(string driveId, string itemId, GraphServiceClient graphClient, AttachmentData att)
         {
-            var sessionResponse = await graphClient.Drives[driveId].Items[itemId].ItemWithPath(att.FileName).CreateUploadSession().Request().PostAsync();
-            await UploadBySession(sessionResponse, graphClient, att);
+
+            _logger.AppendLine($"Uploading {att?.FileName}");
+            var content = await att.GetContentAsync();
+            using (var stream = new MemoryStream(content))
+                await graphClient.Drives[driveId].Items[itemId].ItemWithPath(att.FileName).Content.PutAsync(stream);
+                        
         }
 
-        private async Task UploadBySession(UploadSession sessionResponse, GraphServiceClient graphClient, AttachmentData att)
-        {
-            using (var stream = new MemoryStream(att.Content))
-            {
-                var provider = new ChunkedUploadProvider(sessionResponse, graphClient, stream);
-                var chunkRequests = provider.GetUploadChunkRequests();
-                var trackedExceptions = new List<Exception>();
-                DriveItem itemResult = null;
-
-                foreach (var request in chunkRequests)
-                {
-                    var result = await provider.GetChunkRequestResponseAsync(request, trackedExceptions);
-                    if (result.UploadSucceeded)
-                        itemResult = result.ItemResponse;
-                }
-                foreach (Exception ex in trackedExceptions)
-                    uploadExceptions.Add(ex);                 
-            }
-        }
-
-        private string GetItemId(AddAttachmentsToChannelBaseConfig config, GraphServiceClient graphClient, string driveId)
+        private async Task<string> GetItemIdAsync(AddAttachmentsToChannelBaseConfig config, GraphServiceClient graphClient, string driveId)
         {
             _logger.AppendLine("Downloading ItemId");
-            var item = graphClient.Drives[driveId].Root.Children.Request().GetAsync().Result;
-            return item.Where(x => x.Name == config.ChannelName).FirstOrDefault().Id;
+            var item = await graphClient.Drives[driveId].Items["root"].Children.GetAsync();
+            var channel = item.Value.Where(x => x.Name == config.ChannelName).FirstOrDefault();
+            if(channel != null)
+                return channel.Id;
+
+            throw new Exception($"Channel with name {config.ChannelName} does not exist. Names found: {string.Join(",", item.Value.Select(x => x.Name))}");
         }
 
-        private string GetDriveIdFromPublicChannel(AddAttachmentsToChannelBaseConfig config, GraphServiceClient graphClient)
+        private async Task<string> GetDriveIdFromPublicChannelAsync(AddAttachmentsToChannelBaseConfig config, GraphServiceClient graphClient)
         {
             _logger.AppendLine("Downloading DriveId");
-            return graphClient.Groups[config.TeamId].Drives.Request().GetAsync()
-                .Result.Where(x => x.DriveType == "documentLibrary").First().Id;
+            var result = await graphClient.Groups[config.TeamId].Drives.GetAsync();
+            var drive = result.Value.Where(x => x.DriveType == "documentLibrary").FirstOrDefault();
+            if(drive != null)
+                return drive.Id;
+
+            throw new Exception($"Cannot find a drive for a group with id: {config.TeamId}");
         }
 
-        private string GetDriveIdFromPrivateChannel(AddAttachmentsToPrivateChannelConfig config, GraphServiceClient graphClient)
+        private async Task<string> GetDriveIdFromPrivateChannelAsync(AddAttachmentsToPrivateChannelConfig config, GraphServiceClient graphClient)
         {
             var groupName = !string.IsNullOrEmpty(config.TeamName) ? config.TeamName :
-                graphClient.Groups[config.TeamId].Request().GetAsync().Result.DisplayName;
+                (await graphClient.Groups[config.TeamId].GetAsync()).DisplayName;
 
-            var site = graphClient.Sites.GetByPath($"/sites/{groupName.Replace(" ", "")}-{config.ChannelName.Replace(" ", "")}", config.SpAddres).Request().GetAsync().Result;
-            var drives = graphClient.Sites[site.Id].Drives.Request().GetAsync().Result;
-            return drives.Where(x => x.DriveType == "documentLibrary").First().Id;
+            var site = await graphClient.Sites[$"{config.SpAddres}:/sites/{groupName.Replace(" ", "")}-{config.ChannelName.Replace(" ", "")}"].GetAsync();
+            var drives = await graphClient.Sites[site.Id].Drives.GetAsync();
+            return drives.Value.Where(x => x.DriveType == "documentLibrary").First().Id;
         }
 
     }

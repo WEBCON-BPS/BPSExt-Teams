@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
 using WebCon.WorkFlow.SDK.ActionPlugins;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
@@ -11,13 +12,13 @@ namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachment
     public class AddAttachmentsToPublicChannel : CustomAction<AddAttachmentsToChannelBaseConfig>
     {
         StringBuilder _logger = new StringBuilder();
-        public override void Run(RunCustomActionParams args)
+        public override async Task RunAsync(RunCustomActionParams args)
         {
             try
             {
-                var attachments = new AttachmentsHelper().GetAttachments(args.Context, Configuration);
+                var attachments = await new AttachmentsHelper().GetAttachmentsAsync(args.Context, Configuration);
                 var graphProvider = new GraphApiAttachmentsHelper(Configuration, _logger, args.Context);
-                var exceptions = graphProvider.AddAttachmentsToPublicChannel(attachments, Configuration);
+                var exceptions = await graphProvider.AddAttachmentsToPublicChannelAsync(attachments, Configuration);
                 CheckExceptions(exceptions, args);
             }
             catch (Exception ex)
