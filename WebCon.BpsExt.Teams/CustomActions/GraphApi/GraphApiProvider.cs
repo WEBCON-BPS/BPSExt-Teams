@@ -1,5 +1,7 @@
-﻿using Azure.Identity;
+﻿using Azure.Core.Pipeline;
+using Azure.Identity;
 using Microsoft.Graph;
+using System.Net.Http;
 using System.Text;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Tools.Data;
@@ -20,7 +22,7 @@ namespace WebCon.BpsExt.Teams.CustomActions.GraphApi
             _context = context;
         }
 
-        internal GraphServiceClient CreateGraphClient()
+        internal GraphServiceClient CreateGraphClient(bool useProxy)
         {
             var connection = new ConnectionsHelper(_context).GetConnectionToWebService(new GetByConnectionParams(_connectionId));
             _logger.AppendLine("Creating graph client");
@@ -29,6 +31,9 @@ namespace WebCon.BpsExt.Teams.CustomActions.GraphApi
             {
                 AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
             };
+
+            if (useProxy)
+                options.Transport = new HttpClientTransport(new HttpClientHandler() { Proxy = new ConnectionsHelper(_context).GetProxy(connection.Url) });
 
             var clientSecretCredential = new ClientSecretCredential(connection.AuthorizationServiceUrl, connection.ClientID, connection.ClientSecret, options);
             return new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" });

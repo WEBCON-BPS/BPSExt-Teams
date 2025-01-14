@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using WebCon.BpsExt.Teams.CustomActions.AddAttachmentsToChannel.Configuration;
 using WebCon.WorkFlow.SDK.ActionPlugins.Model;
 using WebCon.WorkFlow.SDK.Documents.Model.Attachments;
 using WebCon.WorkFlow.SDK.Tools.Data;
@@ -10,7 +9,7 @@ namespace WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel
 {
     public class AttachmentsHelper
     {
-        public async Task<List<AttachmentData>> GetAttachmentsAsync(ActionContextInfo context, AddAttachmentsToChannelBaseConfig Configuration)
+        public async Task<List<AttachmentData>> GetAttachmentsAsync(ActionContextInfo context, AddAttachmentToChannelConfig Configuration)
         {
             var attachments = new List<AttachmentData>();
             var ids = await new SqlExecutionHelper(context).GetDataTableForSqlCommandAsync(Configuration.AttachmentsQuery);
