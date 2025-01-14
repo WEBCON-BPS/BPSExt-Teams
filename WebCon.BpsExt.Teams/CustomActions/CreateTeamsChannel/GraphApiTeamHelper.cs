@@ -26,7 +26,7 @@ namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
 
         public async Task<DataToSave> CreateTeamsChannelAsync(List<ElementPrivileges> users)
         {
-            var graphClient = CreateGraphClient();
+            var graphClient = CreateGraphClient(_config.ApiConfig.UseProxy);
             var (members, owner) = await GetAllMembersAsync(graphClient, users);
             var team = await CreateTeamAsync(graphClient, owner);
             var channel = await CreateChannelAsync(graphClient, team);

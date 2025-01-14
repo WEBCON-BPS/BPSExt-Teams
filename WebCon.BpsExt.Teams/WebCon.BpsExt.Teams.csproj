@@ -38,11 +38,9 @@
     <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPrivateChannel\AddAttachmentsToPrivateChannel.cs" />
-    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPrivateChannel\AddAttachmentsToPrivateChannelConfig.cs" />
-    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentsToPublicChannel\AddAttachmentToPublicChannel.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentToChannel.cs" />
     <Compile Include="CustomActions\AddAtachmentsToChannel\AttachmentsHelper.cs" />
-    <Compile Include="CustomActions\AddAtachmentsToChannel\Configuration\AddAttachmentsToChannelBaseConfig.cs" />
+    <Compile Include="CustomActions\AddAtachmentsToChannel\AddAttachmentToChannelConfig.cs" />
     <Compile Include="CustomActions\AddAtachmentsToChannel\GraphApiAttachmentsHelper.cs" />
     <Compile Include="CustomActions\CreateTeamsChannel\BpsApiHelper.cs" />
     <Compile Include="CustomActions\CreateTeamsChannel\CreateTeamsChannel.cs" />
@@ -70,6 +68,6 @@
     <PackageReference Include="Microsoft.Identity.Client" Version="4.65.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="WEBCON.BPS.2024.SDK.Libraries" Version="24.1.1.25" />
+    <PackageReference Include="WEBCON.BPS.2025.SDK.Libraries" Version="25.1.1.15" />
   </ItemGroup>
 </Project>

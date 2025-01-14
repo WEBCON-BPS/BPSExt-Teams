@@ -48,6 +48,9 @@ namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
         [ConfigEditableConnectionID(DisplayName = "Connection to GraphAPI", IsRequired = true, ConnectionsType = DataConnectionType.WebServiceREST)]
         public int GraphApiConnectionId { get; set; }
 
+        [ConfigEditableBool("Use proxy", Description = "For Graph API")]
+        public bool UseProxy { get; set; }
+
         [ConfigEditableConnectionID(DisplayName = "Connection to BPS API", IsRequired = true, ConnectionsType = DataConnectionType.WebServiceREST)]
         public int BpsApiConnectionId { get; set; }
     }
