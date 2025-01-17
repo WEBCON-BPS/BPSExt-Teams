@@ -29,6 +29,7 @@ jobs:
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Identity.Client.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Abstractions.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Core.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Identity.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Authentication.Azure.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Http.HttpClientLibrary.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Json.dll
