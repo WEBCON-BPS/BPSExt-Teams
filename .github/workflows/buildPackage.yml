@@ -36,5 +36,6 @@ jobs:
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Text.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Form.dll
           WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Microsoft.Kiota.Serialization.Multipart.dll
-          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Identity.dll Std.UriTemplate.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Azure.Identity.dll
+          WebCon.BpsExt.Teams/bin/Release/netstandard2.0/Std.UriTemplate.dll
           
