@@ -72,7 +72,7 @@ namespace WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
-                var response = await client.GetAsync($"{connection.Url}/api/data/v5.0/db/{dbId}/elements/{elementId}/admin/privileges");
+                var response = await client.GetAsync($"{connection.Url}/api/data/v7.0/db/{dbId}/elements/{elementId}/admin/privileges");
 
                 if(response.IsSuccessStatusCode)
                     return await GetPrivilegesListAsync(response);

@@ -8,14 +8,14 @@
             "Class": "WebCon.BpsExt.Teams.CustomActions.CreateTeamsChannel.CreateTeamsChannel",
             "Type": "CustomAction"
         },
-      {
-        "Guid": "efe97a34-121a-4015-9091-df9bef150f07",
-        "Name": "AddAttachmentsToChannel",
-        "Description": "Action adds attachments to Teams channel",
-        "Assembly": "WebCon.BpsExt.Teams",
-        "Class": "WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToChannel",
-        "Type": "CustomAction"
-      }
+        {
+            "Guid": "efe97a34-121a-4015-9091-df9bef150f07",
+            "Name": "AddAttachmentsToChannel",
+            "Description": "Action adds attachments to Teams channel",
+            "Assembly": "WebCon.BpsExt.Teams",
+            "Class": "WebCon.BpsExt.Teams.CustomActions.AddAtachmentsToChannel.AddAttachmentsToChannel",
+            "Type": "CustomAction"
+        }
     ],
     "dependencies": [
         "WebCon.BpsExt.Teams",
@@ -33,5 +33,5 @@
         "Azure.Core",
         "Microsoft.Kiota.Serialization.Multipart"
     ],
-    "version": "25"
+    "version": "26"
 }
